@@ -21,7 +21,7 @@ hidden_size = 100
 num_classes = 10
 num_epochs = 2
 batch_size = 100
-learning_rate = 0.001
+learning_rate = 0.01
 
 #MNIST data
 training_dataset = torchvision.datasets.MNIST(root='./data', train=True, transform=transforms.ToTensor(), download=True)
@@ -49,7 +49,7 @@ class NeuralNet(nn.Module):
         self.l2 = nn.Linear(hidden_size, num_classes)
 
     def forward(self, x):
-        out = l1(x)
+        out = self.l1(x)
         out = self.relu(out)
         out = self.l2(out)
         return out
@@ -59,12 +59,12 @@ model = NeuralNet(input_size, hidden_size, num_classes)
 # Loss and Optimizer
 
 criterion = nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(model.parameters(9, lr=learning_rate))
+optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
 # Training loop
 n_total_steps = len(train_loader)
 for epoch in range(num_epochs):
-    for i (images, labels) in enumerate(train_loader):
+    for i, (images, labels) in enumerate(train_loader):
         #100, 1, 28, 28
         #100, 784
         images = images.reshape(-1, 28*28).to(device)
